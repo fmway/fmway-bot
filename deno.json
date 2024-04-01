@@ -1,0 +1,15 @@
+{
+  "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+  "imports": {
+    "$app": "./app.ts",
+    "$bots/": "./bots/",
+    "grammy": "https://deno.land/x/grammy@v1.21.2/mod.ts",
+    "hono": "https://deno.land/x/hono@v4.2.0-rc.1/mod.ts",
+    "hono/middleware": "https://deno.land/x/hono@v4.2.0-rc.1/middleware.ts",
+    "std/": "https://deno.land/std@0.213.0/"
+  },
+  "tasks": {
+    "start": "deno run -A main.ts"
+  },
+  "unstable": ["kv"]
+}
