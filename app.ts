@@ -1,15 +1,38 @@
 import { Context, Hono } from "hono";
-import { cors, logger, prettyJSON } from "hono/middleware";
-import { webhookCallback } from "grammy";
-import namakuIsBot from "$bots/NamakuIsBot/bot.ts";
+import { logger } from "hono/logger";
+import { prettyJSON } from "hono/pretty-json";
+import { Bot, webhookCallback } from "grammy";
 
-const TOKEN_NamakuIsBot = Deno.env.get("TOKEN_NamakuIsBot");
-if (!TOKEN_NamakuIsBot) throw new Error("Token NamakuIsBot not found!!!");
+export type BotFn = (token: string) => Bot;
+
+export const bots = Array
+  .from(Deno.readDirSync("./bots"))
+  .filter(
+    e => e.isDirectory &&
+    Array
+      .from(Deno.readDirSync(`./bots/${e.name}`))
+      .filter(x => x.isFile && x.name == "bot.ts").length > 0)
+  .map(x => x.name);
+
+export const tokens = Object.assign({}, ...bots.map(id => {
+  const res: Record<string, string> = {};
+  res[id] = Deno.env.get(`TOKEN_${id}`) || "";
+  if (res[id] === "") throw new Error(`Token ${id} not found!!!`);
+  return res;
+}));
 
 const app = new Hono({ strict: false });
 app.use("*", logger());
 app.use("*", prettyJSON());
 app.get("/", (c: Context) => c.text("Work jir"));
-app.use("/NamakuIsBot", webhookCallback(namakuIsBot(TOKEN_NamakuIsBot), "hono")); 
+app.use("/:id", async (c, next) => {
+  const { id } = c.req.query();
+  if (bots.includes(id)) {
+    const { default: bot }: { default: BotFn } = await import(`$bots/${id}/bot.ts`);
+    return webhookCallback(bot(tokens[id]), "hono")(c);
+  }
+
+  next();
+})
 
 export default app;
