@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Upload to Deno Deploy
+      uses: denoland/deployctl@v1
+      with:
+        project: "fmway-bot"
+        entrypoint: "main.ts"
+        include: main.ts,app.ts,bots
+        root: "."
