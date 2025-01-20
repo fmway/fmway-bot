@@ -25,5 +25,5 @@ jobs:
       with:
         project: "fmway-bot"
         entrypoint: "main.ts"
-        include: main.ts,app.ts,bots
+        include: main.ts,app.ts,bots/*.ts,deno.json,*.ts
         root: "."
