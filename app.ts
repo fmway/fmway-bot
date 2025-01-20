@@ -24,15 +24,15 @@ export const tokens = Object.assign({}, ...bots.map(id => {
 const app = new Hono({ strict: false });
 app.use("*", logger());
 app.use("*", prettyJSON());
-app.get("/", (c: Context) => c.text("Work jir"));
 app.use("/:id", async (c, next) => {
-  const { id } = c.req.query();
+  const { id } = c.req.param();
   if (bots.includes(id)) {
     const { default: bot }: { default: BotFn } = await import(`$bots/${id}/bot.ts`);
-    return webhookCallback(bot(tokens[id]), "hono")(c);
+    return await webhookCallback(bot(tokens[id]), "hono")(c);
   }
 
   next();
 })
+app.get("/", (c: Context) => c.text("Work jir"));
 
 export default app;
