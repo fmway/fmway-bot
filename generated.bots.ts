@@ -5,9 +5,7 @@ import OrcaUpdaterBot from "$bots/OrcaUpdaterBot/bot.ts"
 
 
 const TOKEN_NamakuIsBot = Deno.env.get("TOKEN_NamakuIsBot") || "";
-if (TOKEN_NamakuIsBot === "") throw new Error("TOKEN NamakuIsBot is not exist");
 const TOKEN_OrcaUpdaterBot = Deno.env.get("TOKEN_OrcaUpdaterBot") || "";
-if (TOKEN_OrcaUpdaterBot === "") throw new Error("TOKEN OrcaUpdaterBot is not exist");
 
 
 export default async function handler(c: Context, next: Next) {
@@ -16,9 +14,11 @@ export default async function handler(c: Context, next: Next) {
   switch (id) {
 
     case "NamakuIsBot":
+      if (TOKEN_NamakuIsBot === "") throw new Error("TOKEN NamakuIsBot is not exist");
       return await webhookCallback(NamakuIsBot(TOKEN_NamakuIsBot), "hono")(c);
   
     case "OrcaUpdaterBot":
+      if (TOKEN_OrcaUpdaterBot === "") throw new Error("TOKEN OrcaUpdaterBot is not exist");
       return await webhookCallback(OrcaUpdaterBot(TOKEN_OrcaUpdaterBot), "hono")(c);
   
     default:

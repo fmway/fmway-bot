@@ -30,11 +30,11 @@ for (const bot of bots) {
 `;
 
   generated_bot.body += `const TOKEN_${bot} = Deno.env.get("TOKEN_${bot}") || "";
-if (TOKEN_${bot} === "") throw new Error("TOKEN ${bot} is not exist");
 `;
 
   generated_bot.func += `
     case "${bot}":
+      if (TOKEN_${bot} === "") throw new Error("TOKEN ${bot} is not exist");
       return await webhookCallback(${bot}(TOKEN_${bot}), "hono")(c);
   `;
 
