@@ -9,5 +9,5 @@
   "tasks": {
     "start": "deno run -A main.ts"
   },
-  "unstable": ["kv"]
+  "unstable": ["kv", "cron"]
 }

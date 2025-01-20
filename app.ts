@@ -19,7 +19,7 @@ export const tokens = Object.assign({}, ...bots.map(id => {
   res[id] = Deno.env.get(`TOKEN_${id}`) || "";
   if (res[id] === "") throw new Error(`Token ${id} not found!!!`);
   return res;
-}));
+})) as Record<string, string>;
 
 const app = new Hono({ strict: false });
 app.use("*", logger());
