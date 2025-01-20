@@ -1,13 +1,18 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+  "name": "@fmway/bot",
   "imports": {
     "$app": "./app.ts",
     "$bots/": "./bots/",
     "hono": "jsr:@hono/hono@^4.6.17",
     "grammy": "https://deno.land/x/grammy@v1.34.0/mod.ts"
   },
+  "exports":{
+  },
   "tasks": {
-    "start": "deno run -A main.ts"
+    "start": "deno run -A main.ts",
+    "dev": "deno run -A --watch --watch-exclude=generated.bots.ts,generated.startup.ts dev.ts",
+    "build": "deno run -A dev.ts build"
   },
   "unstable": ["kv", "cron"]
 }

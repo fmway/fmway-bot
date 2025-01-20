@@ -1,9 +1,7 @@
-import app, { bots } from "$app";
+import app from "$app";
 
-for (const bot of bots) {
-  if (Array.from(Deno.readDirSync(`./bots/${bot}`)).filter(x => x.isFile && x.name == "startup.ts").length == 1) {
-    await import(`$bots/${bot}/startup.ts`);
-  }
+import "./generated.startup.ts";
+
+export default function main() {
+  Deno.serve(app.fetch);
 }
-
-Deno.serve(app.fetch);
