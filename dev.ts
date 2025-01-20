@@ -1,5 +1,3 @@
-import main from "./main.ts";
-
 const bots = Array
   .from(Deno.readDirSync("./bots"))
   .filter(
@@ -65,5 +63,6 @@ Deno.writeFileSync("generated.startup.ts", encoder.encode(generated_startup));
 
 const args = Deno.args;
 
+import main from "./main.ts";
 if (args.length < 1 || args[0] !== "build")
   main();
