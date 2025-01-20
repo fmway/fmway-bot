@@ -3,10 +3,8 @@
   "imports": {
     "$app": "./app.ts",
     "$bots/": "./bots/",
-    "grammy": "https://deno.land/x/grammy@v1.21.2/mod.ts",
-    "hono": "https://deno.land/x/hono@v4.2.0-rc.1/mod.ts",
-    "hono/middleware": "https://deno.land/x/hono@v4.2.0-rc.1/middleware.ts",
-    "std/": "https://deno.land/std@0.213.0/"
+    "hono": "jsr:@hono/hono@^4.6.17",
+    "grammy": "https://deno.land/x/grammy@v1.34.0/mod.ts"
   },
   "tasks": {
     "start": "deno run -A main.ts"
